@@ -22,6 +22,7 @@ public class ComplexCaseTest {
 		String sql = "select complexObjectGenerate(343)";
 		
 		
+		@SuppressWarnings("rawtypes")
 		ExecutionFactory executionFactory = new ExecutionFactory();
 		executionFactory.start();
 		
