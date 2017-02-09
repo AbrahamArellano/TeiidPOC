@@ -3,6 +3,8 @@
   <groupId>javaexecutionteiid</groupId>
   <artifactId>javaexecutionteiid</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+
+<!-- 
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -16,7 +18,7 @@
       </plugin>
     </plugins>
   </build>
-  
+   -->
   
    <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -117,7 +119,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>${version.junit}</version>
       <scope>test</scope>
     </dependency>
 	
@@ -139,7 +141,7 @@
 	</dependency>  
 
     <!--from caching example -->
-    		<dependency>
+    	<dependency>
             <groupId>org.jboss.narayana.jta</groupId>
             <artifactId>narayana-jta</artifactId>
             <version>${version.narayana}</version>

@@ -1,4 +1,4 @@
-package de.redhat.poc.core.udf;
+package javaexecutionteiid;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,18 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.junit.Test;
 import org.teiid.jdbc.RequestOptions;
 import org.teiid.jdbc.StatementCallback;
 import org.teiid.jdbc.TeiidPreparedStatement;
 
+import de.redhat.poc.core.udf.UserDefineCallerAbstract;
 import de.redhat.poc.core.udf.beans.Team;
 
-public class UserDefinedComplexObjectCaller extends UserDefineCallerAbstract{
+public class UserDefinedComplexObjectCallerTest extends UserDefineCallerAbstract{
 
 	static String sql = "select complexObjectGenerate(343)";
 	
-	
-	public static void main(String[] args) throws Exception {
+	@Test
+	public void executeNonBlockingUserDefinedFunction() throws Exception {
 		common();
 		testNonBlockingExecution(c);
 	}

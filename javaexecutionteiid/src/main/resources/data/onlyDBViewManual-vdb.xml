@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<vdb name="ManualTest" version="1">
+
+    <description>The Manual Dynamic VDB</description>
+    
+    <property name ="lib" value ="userfunctions"></property>
+    
+    <!-- 
+      Setting to use connector supplied metadata. Can be "true" or "cached".  
+      "true" will obtain metadata once for every launch of Teiid. 
+      "cached" will save a file containing the metadata into 
+      the deploy/<vdb name>/<vdb version/META-INF directory
+    -->
+    <property name="UseConnectorMetadata" value="true" />
+
+    <!-- 
+      Each model represents a access to one or more sources.
+      The name of the model will be used as a top level schema name
+      for all of the metadata imported from the connector.
+    
+      NOTE: Multiple models, with different import settings, can be bound to 
+      the same connector binding and will be treated as the same source at
+      runtime. 
+    --> 
+    <model name="sourceTest">
+        <!-- 
+          JDBC Import settings 
+          
+          importer.useFullSchemaName directs the importer to drop the source 
+          schema from the Teiid object name, so that the Teiid fully qualified name
+          will be in the form of <model name>.<table name>
+        -->
+        <property name="importer.useFullSchemaName" value="false"/>
+           
+         <!--
+            This connector is defined to reference the H2 localDS" -  translator-name="translator-h2" 
+          -->
+        <source name="h2db_v2_source" translator-name="jdbc-simple" connection-jndi-name="java:/h2db1_DS"/>
+    </model>
+    
+    
+    <model name="Test" type="VIRTUAL">
+        <metadata type="DDL"><![CDATA[
+        
+        CREATE VIEW Stock (
+            product_id integer,
+            symbol string
+            )
+            AS
+                SELECT A.ID, A.COMPANY_NAME FROM sourceTest.PRODUCT A;
+
+                 
+        ]]> </metadata>
+    </model>
+
+
+    <model name="TestUserFunction" type="VIRTUAL">
+        <metadata type="DDL"><![CDATA[
+        
+		CREATE VIRTUAL FUNCTION celsiusToFahrenheit(celsius decimal) 
+        RETURNS decimal 
+        OPTIONS (JAVA_CLASS 'de.redhat.poc.core.udf.TempConv',  JAVA_METHOD 'celsiusToFahrenheit');
+
+                 
+        ]]> </metadata>
+    </model>
+    
+    <model name="ComplexUserFunction" type="VIRTUAL">
+        <metadata type="DDL"><![CDATA[
+        
+		CREATE VIRTUAL FUNCTION complexObjectGenerate(celsius decimal) 
+        RETURNS object 
+        OPTIONS (JAVA_CLASS 'de.redhat.poc.core.udf.ComplexGenerator',  JAVA_METHOD 'complexObjectGenerate');
+
+                 
+        ]]> </metadata>
+    </model>
+
+ <!-- 
+    <model name="TestUserFunction" type="VIRTUAL">
+        <metadata type="DDL"><![CDATA[
+        
+		SELECT AT.* FROM 
+		
+		OBJECTTABLE('rowScript' PASSING foo(parm1) AS udf_rows 
+		COLUMNS udf_row OBJECT 'rowScript') AS OT,
+		 
+		ARRAYTABLE(OT.udf_row COLUMNS name string) AS AT
+                 
+        ]]> </metadata>
+    </model>
+
+ -->
+
+</vdb>
