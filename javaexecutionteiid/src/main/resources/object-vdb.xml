@@ -1,0 +1,22 @@
+<vdb name="ObjectExampleVDB" version="1">
+    <model name="cache" type="VIRTUAL">
+        <metadata type = "DDL"><![CDATA[        
+            CREATE VIEW Team (name varchar(25), players object)
+                AS SELECT OT.teamName as name, OT.players as players FROM 
+                    OBJECTTABLE('team_rows' PASSING team() AS team_rows 
+                        COLUMNS teamName string 'teiid_row.teamName',
+                            players object 'teiid_row.players') AS OT;                     
+
+            CREATE VIEW Player (teamname varchar(25), playername string)
+                AS SELECT OT.teamName as name, cast(P.col as string) as players FROM 
+                    OBJECTTABLE('team_rows' PASSING team() AS team_rows 
+                        COLUMNS teamName string 'teiid_row.teamName', players object 'teiid_row.playersAsArray') AS OT,
+                        TABLE(exec SYS.ARRAYITERATE (cast(OT.players AS string[]))) AS P;   
+                            
+                                                
+             CREATE VIRTUAL FUNCTION team() 
+                RETURNS object OPTIONS (JAVA_CLASS 'de.redhat.poc.core.objectastable.TeamObjectCollection',  JAVA_METHOD 'getTeam');
+        ]]>
+       </metadata>        
+    </model>
+</vdb>
