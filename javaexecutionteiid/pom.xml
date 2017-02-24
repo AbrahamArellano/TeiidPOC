@@ -99,15 +99,16 @@
     </dependency>
 -->
 
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>5.0.7.Final</version>
-    </dependency>
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-core</artifactId>
+	    <version>5.2.8.Final</version>
+	</dependency>
+
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId> hibernate-java8</artifactId>
-      <version>5.0.7.Final</version>
+      <version>5.2.8.Final</version>
     </dependency>
 	<!-- https://mvnrepository.com/artifact/org.drools/drools-core -->
 	<dependency>
@@ -140,6 +141,12 @@
 	    <version>${version.teiid}</version>
 	</dependency>  
 
+		<dependency>
+		    <groupId>org.jboss.teiid</groupId>
+		    <artifactId>teiid-hibernate-dialect</artifactId>
+		    <version>${version.teiid}</version>
+		</dependency>
+		
     <!--from caching example -->
     	<dependency>
             <groupId>org.jboss.narayana.jta</groupId>
